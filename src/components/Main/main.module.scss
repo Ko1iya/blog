@@ -1,0 +1,12 @@
+// src/components/Main/main.module.scss
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.articles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

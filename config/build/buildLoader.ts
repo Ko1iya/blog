@@ -74,5 +74,10 @@ export function buildLoader(env: BuildOptions): ModuleOptions['rules'] {
     ],
   };
 
-  return [scssLoader, babelLoader, assetLoader, svgrLoader];
+  const fontLoader = {
+    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+    type: 'asset/resource',
+  };
+
+  return [scssLoader, babelLoader, assetLoader, svgrLoader, fontLoader];
 }

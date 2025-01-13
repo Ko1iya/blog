@@ -1,0 +1,86 @@
+// src/components/ArticleCard/ArticleCard.module.scss
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  margin-bottom: 15px;
+}
+
+.title {
+  color: #0066ff;
+  font-weight: 300;
+  font-size: 20px;
+
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  background: #e2e8f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.text {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorName {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.date {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.likes {
+  margin: 10px 0;
+}
+
+.likeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #718096;
+
+  &:hover {
+    color: #e53e3e;
+  }
+}

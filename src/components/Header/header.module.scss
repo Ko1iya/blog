@@ -1,11 +1,40 @@
 .header {
-  max-width: 754px;
-  margin: 0 auto;
-
-  background-color: rgb(243, 247, 250);
-
+  background-color: #f8f9fa;
+  padding: 1rem 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  .authButtons {
+    display: flex;
+
+    button {
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .signIn {
+      background: none;
+      color: #007bff;
+    }
+
+    .signUp {
+      background: #28a745;
+      color: white;
+      border-radius: 5px;
+    }
+  }
 }
