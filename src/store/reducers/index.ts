@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { countReducer } from './countReducer';
+import { articleReducer } from './currentArticle';
+import blogApi from './blogApi';
 
 const rootReducer = combineReducers({
-  countReducer,
+  articleReducer,
+  [blogApi.reducerPath]: blogApi.reducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './ArticleCard.module.scss';
 import HertWithoutLike from '@/asset/image/heart-without-like.svg';
 
@@ -9,15 +10,27 @@ interface ArticleCardProps {
   content: string;
   authorName: string;
   authorAvatar: string;
+  slug: string;
 }
 function ArticleCard(props: ArticleCardProps) {
-  const { title, likes, date, tags, content, authorName, authorAvatar } = props;
+  const { title, likes, date, tags, content, authorName, authorAvatar, slug } =
+    props;
+
+  // const dispatch = useAppDispatch();
 
   return (
-    <article className={styles.card}>
+    <li className={styles.card}>
       <div className={styles.content}>
         <div className={styles.header}>
-          <h2 className={styles.title}>{title}</h2>
+          <Link to={`/articles/${slug}`}>
+            <h2 className={styles.title}>{title}</h2>
+          </Link>
+          {/* <button
+            type="button"
+            onClick={() => dispatch(changeArticle(article))}
+          >
+            <h2 className={styles.title}>{title}</h2>
+          </button> */}
           <div className={styles.likes}>
             <button type="button" className={styles.likeButton}>
               <HertWithoutLike width={20} height={20}></HertWithoutLike>
@@ -41,7 +54,7 @@ function ArticleCard(props: ArticleCardProps) {
         </div>
         <img src={authorAvatar} alt={authorName} className={styles.avatar} />
       </div>
-    </article>
+    </li>
   );
 }
 

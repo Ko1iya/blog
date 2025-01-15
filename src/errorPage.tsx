@@ -1,6 +1,6 @@
 // src/error-page.tsx
 import React from 'react';
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
 
 const ErrorPage: React.FC = function ErrorPage() {
   const error = useRouteError();
@@ -27,6 +27,7 @@ const ErrorPage: React.FC = function ErrorPage() {
       <p>
         <i>{errorMessage}</i>
       </p>
+      <Link to="/">Go Home</Link>
     </div>
   );
 };

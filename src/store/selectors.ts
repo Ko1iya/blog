@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from './reducers';
 
-const countSelector = (state: RootState) => state.countReducer;
+const countSelector = (state: RootState) => state.articleReducer;
 
 // src/store/selectors.ts
 

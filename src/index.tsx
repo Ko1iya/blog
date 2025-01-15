@@ -9,12 +9,28 @@ import App from './components/App/App';
 import ErrorPage from './errorPage';
 import './index.css';
 import { setupStore } from './store/store';
+import ArticlePage from './components/ArticlePage/ArticlePage';
+import Main from './components/Main/Main';
 
 const router = createHashRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/articles/:slug',
+        element: <ArticlePage />,
+      },
+      {
+        index: true,
+        element: <Main />,
+      },
+      {
+        path: '/articles',
+        element: <Main />,
+      },
+    ],
   },
 ]);
 
