@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Pagination as PagAnt } from 'antd';
 import styles from './Pagination.module.scss';
 
 interface PaginationProps {
@@ -8,38 +9,26 @@ interface PaginationProps {
 function Pagination(props: PaginationProps) {
   const { totalPages } = props;
 
+  console.log(totalPages);
+
   const { id } = useParams();
 
-  const arrPage = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const navigate = useNavigate();
+
+  const onChange = (page: number) => {
+    navigate(`/${page}`);
+  };
 
   const currentPage = parseInt(id, 10) || 1;
 
   return (
     <div className={styles.pagination}>
-      <div className={styles.pagination}>
-        <Link
-          to={currentPage !== 1 ? `/${currentPage - 1}` : `/${currentPage}`}
-          className={styles.pageButton}
-        >
-          ←
-        </Link>
-
-        {arrPage.map((page) => (
-          <Link
-            to={`/${page}`}
-            key={page}
-            className={`${styles.pageButton} ${
-              currentPage === page ? styles.active : ''
-            }`}
-          >
-            {page}
-          </Link>
-        ))}
-
-        <Link to={`/${currentPage + 1}`} className={styles.pageButton}>
-          →
-        </Link>
-      </div>
+      <PagAnt
+        current={currentPage}
+        onChange={onChange}
+        total={totalPages}
+        showSizeChanger={false}
+      ></PagAnt>
     </div>
   );
 }

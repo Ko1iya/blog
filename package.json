@@ -76,6 +76,7 @@
     "@svgr/webpack": "^8.1.0",
     "@types/babel__core": "^7.20.3",
     "@types/react-redux": "^7.1.34",
+    "antd": "^5.23.1",
     "date-fns": "^4.1.0",
     "markdown-to-jsx": "^7.7.3",
     "prettier": "^3.3.3",

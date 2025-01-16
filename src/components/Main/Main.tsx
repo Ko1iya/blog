@@ -12,6 +12,8 @@ function Main() {
 
   const articles = data?.articles || [];
 
+  const countPage = data ? Math.floor(data.articlesCount / 20) * 10 : 10;
+
   return (
     <main className={styles.main}>
       <ul className={styles.articles}>
@@ -31,7 +33,7 @@ function Main() {
             />
           ))}
       </ul>
-      <Pagination totalPages={10} />
+      <Pagination totalPages={countPage} />
     </main>
   );
 }

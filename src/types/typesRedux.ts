@@ -20,6 +20,7 @@ interface Article {
 
 interface ArticlesResponse {
   articles: Article[];
+  articlesCount: number;
 }
 
 export { Author, Article, ArticlesResponse };
