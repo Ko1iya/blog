@@ -59,6 +59,9 @@
 .text {
   color: #4a5568;
   line-height: 1.6;
+  overflow-wrap: break-word;
+  max-height: 94px;
+  overflow: hidden;
 }
 
 .author {

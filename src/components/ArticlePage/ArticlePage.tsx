@@ -3,6 +3,7 @@ import styles from './ArticlePage.module.scss';
 import HertWithoutLike from '@/asset/image/heart-without-like.svg';
 import { useGetArticleQuery } from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
+import MarkdownContent from '../MarkdownContent/MarkdownContent';
 
 function ArticlePage() {
   const { slug } = useParams();
@@ -43,7 +44,11 @@ function ArticlePage() {
                   </span>
                 ))}
               </div>
-              <p className={styles.text}>{content}</p>
+
+              <MarkdownContent
+                content={content}
+                className={styles.text}
+              ></MarkdownContent>
             </div>
             <div className={styles.author}>
               <div className={styles.authorInfo}>
@@ -58,7 +63,7 @@ function ArticlePage() {
             </div>
           </li>
           <div className={styles.fullContent}>
-            <p className={styles.text}>{content}</p>
+            <MarkdownContent content={content} className=""></MarkdownContent>
           </div>
         </>
       )}

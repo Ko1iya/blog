@@ -4,8 +4,6 @@ import ArticleCard from '../ArticleCard/ArticleCard';
 import Pagination from '../Pagination/Pagination';
 import { useGetArticlesQuery } from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
-// import { useAppSelector } from '@/hooks/redux';
-// import ArticlePage from '../ArticlePage/ArticlePage';
 
 const ARTICLES_PER_PAGE = 5;
 
