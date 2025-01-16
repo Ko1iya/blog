@@ -1,14 +1,14 @@
 // src/components/Main/Main.tsx
+import { useParams } from 'react-router-dom';
 import styles from './main.module.scss';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import Pagination from '../Pagination/Pagination';
 import { useGetArticlesQuery } from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
 
-const ARTICLES_PER_PAGE = 5;
-
 function Main() {
-  const { data, isLoading, isError } = useGetArticlesQuery();
+  const { id } = useParams();
+  const { data, isLoading, isError } = useGetArticlesQuery(parseInt(id, 10));
 
   const articles = data?.articles || [];
 
@@ -19,7 +19,7 @@ function Main() {
         {!isLoading &&
           articles.map((article) => (
             <ArticleCard
-              key={article.slug}
+              key={article.createdAt}
               title={article.title}
               likes={article.favoritesCount}
               date={new Date(article.createdAt).toDateString()}
@@ -31,11 +31,7 @@ function Main() {
             />
           ))}
       </ul>
-      <Pagination
-        currentPage={1}
-        totalPages={Math.ceil(articles.length / ARTICLES_PER_PAGE)}
-        onPageChange={() => {}}
-      />
+      <Pagination totalPages={10} />
     </main>
   );
 }

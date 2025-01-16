@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import styles from './ArticleCard.module.scss';
 import HertWithoutLike from '@/asset/image/heart-without-like.svg';
 
@@ -40,7 +41,7 @@ function ArticleCard(props: ArticleCardProps) {
         </div>
         <div className={styles.tags}>
           {tags.map((tag) => (
-            <span key={tag} className={styles.tag}>
+            <span key={`${tag} + ${uuid()}`} className={styles.tag}>
               {tag}
             </span>
           ))}

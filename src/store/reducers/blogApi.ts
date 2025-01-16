@@ -14,8 +14,8 @@ const blogApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getArticles: builder.query<ArticlesResponse, void>({
-      query: () => 'articles',
+    getArticles: builder.query<ArticlesResponse, number>({
+      query: (page) => `articles?offset=${page * 20}`,
     }),
     getArticle: builder.query<{ article: Article }, string>({
       query: (slug) => `articles/${slug}`,

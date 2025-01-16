@@ -12,6 +12,10 @@
   display: flex;
   justify-content: start;
   align-items: center;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .content {
@@ -27,6 +31,7 @@
   margin: 0;
   margin-right: 10px;
   cursor: pointer;
+  text-decoration: none;
 
   &:hover {
     text-decoration: underline;

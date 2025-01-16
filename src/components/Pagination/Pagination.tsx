@@ -1,46 +1,44 @@
+import { Link, useParams } from 'react-router-dom';
 import styles from './Pagination.module.scss';
 
 interface PaginationProps {
-  currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
 }
 
 function Pagination(props: PaginationProps) {
-  const { currentPage, totalPages, onPageChange } = props;
+  const { totalPages } = props;
+
+  const { id } = useParams();
+
+  const arrPage = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  const currentPage = parseInt(id, 10) || 1;
+
   return (
     <div className={styles.pagination}>
       <div className={styles.pagination}>
-        <button
-          type="button"
+        <Link
+          to={currentPage !== 1 ? `/${currentPage - 1}` : `/${currentPage}`}
           className={styles.pageButton}
-          disabled={currentPage === 1}
-          onClick={() => onPageChange(currentPage - 1)}
         >
           ←
-        </button>
+        </Link>
 
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            type="button"
+        {arrPage.map((page) => (
+          <Link
+            to={`/${page}`}
             key={page}
             className={`${styles.pageButton} ${
               currentPage === page ? styles.active : ''
             }`}
-            onClick={() => onPageChange(page)}
           >
             {page}
-          </button>
+          </Link>
         ))}
 
-        <button
-          type="button"
-          className={styles.pageButton}
-          disabled={currentPage === totalPages}
-          onClick={() => onPageChange(currentPage + 1)}
-        >
+        <Link to={`/${currentPage + 1}`} className={styles.pageButton}>
           →
-        </button>
+        </Link>
       </div>
     </div>
   );
