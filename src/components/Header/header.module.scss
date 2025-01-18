@@ -29,6 +29,7 @@
     .signIn {
       background: none;
       color: #007bff;
+      margin-right: 10px;
     }
 
     .signUp {
@@ -36,6 +37,10 @@
       color: rgba(82, 196, 26, 1);
       border-radius: 5px;
       border: rgba(82, 196, 26, 1) 1px solid;
+
+      p {
+        padding: 0 10px;
+      }
     }
   }
 }

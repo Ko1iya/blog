@@ -11,6 +11,8 @@ import './index.css';
 import { setupStore } from './store/store';
 import ArticlePage from './components/ArticlePage/ArticlePage';
 import Main from './components/Main/Main';
+import SignUpPage from './components/SignUpPage/SignUpPage';
+import SignInPage from './components/SignInPage/SignInPage';
 
 const router = createHashRouter([
   {
@@ -33,6 +35,14 @@ const router = createHashRouter([
       {
         path: '/articles/',
         element: <Main />,
+      },
+      {
+        path: '/sign-up',
+        element: <SignUpPage />,
+      },
+      {
+        path: '/sign-in',
+        element: <SignInPage />,
       },
     ],
   },

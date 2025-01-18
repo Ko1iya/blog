@@ -9,8 +9,6 @@ interface PaginationProps {
 function Pagination(props: PaginationProps) {
   const { totalPages } = props;
 
-  console.log(totalPages);
-
   const { id } = useParams();
 
   const navigate = useNavigate();

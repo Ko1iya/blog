@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 
 function Header() {
@@ -6,12 +7,13 @@ function Header() {
       <div className={styles.container}>
         <h1 className={styles.title}>Realworld Blog</h1>
         <div className={styles.authButtons}>
-          <button type="button" className={styles.signIn}>
-            Sign In
-          </button>
-          <button type="button" className={styles.signUp}>
-            Sign Up
-          </button>
+          <Link to="/sign-in" className={styles.signIn}>
+            <p>Sign In</p>
+          </Link>
+
+          <Link to="/sign-up" className={styles.signUp}>
+            <p>Sign Up</p>
+          </Link>
         </div>
       </div>
     </header>

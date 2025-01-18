@@ -61,7 +61,15 @@
   line-height: 1.6;
   overflow-wrap: break-word;
   max-height: 94px;
+  width: 600px;
+  height: 94px;
   overflow: hidden;
+
+  * {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .author {

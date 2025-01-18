@@ -32,6 +32,10 @@ button::-moz-focus-inner {
   border: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   font:
     14px 'Inter',
