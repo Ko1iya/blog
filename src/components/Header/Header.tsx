@@ -12,14 +12,16 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <h1 className={styles.title}>Realworld Blog</h1>
+        <Link to="/" className={styles.title}>
+          Realworld Blog
+        </Link>
         <div className={styles.authButtons}>
           {user ? (
             <>
               <Link to="/create-article" className={styles.signUp}>
                 <p>Create Article</p>
               </Link>
-              <Link to="/edit-profile">
+              <Link to="/edit-profile" className={styles.profile}>
                 <p className={styles.username}>{user}</p>
                 <img src={imgUrl} alt="avatar" className={styles.avatar} />
               </Link>

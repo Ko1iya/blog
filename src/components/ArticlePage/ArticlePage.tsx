@@ -53,7 +53,9 @@ function ArticlePage() {
             <div className={styles.author}>
               <div className={styles.authorInfo}>
                 <span className={styles.authorName}>{authorName}</span>
-                <span className={styles.date}>{date}</span>
+                <span className={styles.date}>
+                  {new Date(date).toDateString()}
+                </span>
               </div>
               <img
                 src={authorAvatar}

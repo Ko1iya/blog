@@ -49,6 +49,10 @@ const router = createHashRouter([
         path: '/edit-profile',
         element: <EditProfilePage />,
       },
+      {
+        path: '*',
+        element: <ErrorPage />,
+      },
     ],
   },
 ]);
