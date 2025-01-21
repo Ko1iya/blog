@@ -70,7 +70,6 @@ function SignUpPage() {
 
       dispatch(setCredentials(result.user));
       navigate('/');
-      console.log('Result:', result);
     } catch (error) {
       console.error('Error signing up:', error);
     }

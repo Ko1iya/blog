@@ -2,6 +2,7 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
+import { useEffect } from 'react';
 import styles from './EditProfile.module.scss';
 import { useEditProfileMutation } from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
@@ -25,6 +26,14 @@ interface EditProfileError {
 }
 
 function EditProfilePage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/sign-in');
+    }
+  }, []);
+
   const {
     control,
     handleSubmit,
@@ -53,10 +62,8 @@ function EditProfilePage() {
     }
   }
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    console.log('Form data:', formData);
     try {
       const result = await editProfile({
         user: {
@@ -69,7 +76,6 @@ function EditProfilePage() {
 
       dispatch(setCredentials(result.user));
       navigate('/');
-      console.log('Result:', result);
     } catch (error) {
       console.error('Error signing up:', error);
     }
@@ -115,6 +121,7 @@ function EditProfilePage() {
             name="email"
             control={control}
             rules={{
+              required: 'Email is required',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: 'Invalid email address',

@@ -91,8 +91,6 @@ const blogApi = createApi({
           Object.entries(requestData.user).filter(([_, value]) => value !== ''),
         );
 
-        console.log(noEmptyValues);
-
         const requestD = {
           url: 'user',
           method: 'PUT',
