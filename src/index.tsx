@@ -13,6 +13,7 @@ import ArticlePage from './components/ArticlePage/ArticlePage';
 import Main from './components/Main/Main';
 import SignUpPage from './components/SignUpPage/SignUpPage';
 import SignInPage from './components/SignInPage/SignInPage';
+import EditProfilePage from './components/EditProfile/EditProfile';
 
 const router = createHashRouter([
   {
@@ -43,6 +44,10 @@ const router = createHashRouter([
       {
         path: '/sign-in',
         element: <SignInPage />,
+      },
+      {
+        path: '/edit-profile',
+        element: <EditProfilePage />,
       },
     ],
   },

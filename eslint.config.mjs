@@ -58,6 +58,24 @@ export default [
     },
   },
 
+  {
+    rules: {
+      'react/jsx-props-no-spreading': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
+    },
+  },
+
   eslintConfigPrettier,
   {
     rules: {

@@ -8,7 +8,10 @@ import Spinner from '../Spinner/Spinner';
 
 function Main() {
   const { id } = useParams();
-  const { data, isLoading, isError } = useGetArticlesQuery(parseInt(id, 10));
+
+  const currentPage = parseInt(id, 10) || 1;
+
+  const { data, isLoading, isError } = useGetArticlesQuery(currentPage);
 
   const articles = data?.articles || [];
 
@@ -30,6 +33,7 @@ function Main() {
               authorName={article.author.username}
               authorAvatar={article.author.image}
               slug={article.slug}
+              favorited={article.favorited}
             />
           ))}
       </ul>

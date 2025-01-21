@@ -16,20 +16,30 @@
     font-weight: 300;
   }
 
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 10px;
+  }
+
+  .username {
+    margin: 0 10px;
+    padding: 14px 0;
+  }
+
   .authButtons {
     display: flex;
-
-    button {
-      margin-left: 1rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      cursor: pointer;
-    }
 
     .signIn {
       background: none;
       color: #007bff;
-      margin-right: 10px;
+      margin: 0 10px;
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
 
     .signUp {

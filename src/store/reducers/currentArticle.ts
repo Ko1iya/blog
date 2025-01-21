@@ -13,7 +13,7 @@ const ArticleSlice = createSlice({
   name: 'articleSlice',
   initialState,
   reducers: {
-    changeArticle: (state: ICount, action: { payload: Article | false }) => ({
+    changeArticle: (_, action: { payload: Article | false }) => ({
       activeArticle: action.payload,
     }),
   },

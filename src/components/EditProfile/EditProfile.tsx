@@ -1,9 +1,9 @@
 // src/components/SignUpPage/SignUpPage.tsx
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Checkbox, Form, Input } from 'antd';
-import styles from './SignUpPage.module.scss';
-import { useSignUpMutation } from '@/store/reducers/blogApi';
+import { Button, Form, Input } from 'antd';
+import styles from './EditProfile.module.scss';
+import { useEditProfileMutation } from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
 import { useAppDispatch } from '@/hooks/redux';
 import { setCredentials } from '@/store/reducers/authSlice';
@@ -11,12 +11,11 @@ import { setCredentials } from '@/store/reducers/authSlice';
 type FormInputs = {
   username: string;
   email: string;
-  password: string;
-  confirmPassword: string;
-  agreement: boolean;
+  bio: string;
+  avatar: string;
 };
 
-interface SignUpError {
+interface EditProfileError {
   data: {
     errors: {
       [key: string]: string;
@@ -25,31 +24,27 @@ interface SignUpError {
   status: number;
 }
 
-function SignUpPage() {
+function EditProfilePage() {
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FormInputs>({
     defaultValues: {
       username: '',
       email: '',
-      password: '',
-      confirmPassword: '',
-      agreement: false,
+      bio: '',
+      avatar: '',
     },
   });
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const [signUp, { isLoading, error: signUpError }] = useSignUpMutation();
+  const [editProfile, { isLoading, error: editProfileError }] =
+    useEditProfileMutation();
 
   let errorMessage: string;
 
-  if (signUpError && 'data' in signUpError) {
-    const error = signUpError as SignUpError;
+  if (editProfileError && 'data' in editProfileError) {
+    const error = editProfileError as EditProfileError;
 
     const firstErrorEntry = Object.entries(error.data.errors)[0];
     if (firstErrorEntry) {
@@ -57,15 +52,19 @@ function SignUpPage() {
       errorMessage = `${field} ${message}`;
     }
   }
-
-  const password = watch('password');
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
+    console.log('Form data:', formData);
     try {
-      const result = await signUp({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
+      const result = await editProfile({
+        user: {
+          username: formData.username,
+          email: formData.email,
+          image: formData.avatar,
+          bio: formData.bio,
+        },
       }).unwrap();
 
       dispatch(setCredentials(result.user));
@@ -77,7 +76,7 @@ function SignUpPage() {
   };
 
   return (
-    <div className={styles.signUpPage}>
+    <div className={styles.editProfilePage}>
       <h1>Create new account</h1>
       <Form
         layout="vertical"
@@ -116,7 +115,6 @@ function SignUpPage() {
             name="email"
             control={control}
             rules={{
-              required: 'Email is required',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: 'Invalid email address',
@@ -127,15 +125,15 @@ function SignUpPage() {
         </Form.Item>
 
         <Form.Item
-          label="Password"
-          validateStatus={errors.password ? 'error' : ''}
-          help={errors.password?.message}
+          label="Bio"
+          validateStatus={errors.bio ? 'error' : ''}
+          help={errors.bio?.message}
         >
           <Controller
-            name="password"
+            name="bio"
             control={control}
             rules={{
-              required: 'Password is required',
+              required: false,
               minLength: {
                 value: 6,
                 message: 'Password must be at least 6 characters',
@@ -150,46 +148,20 @@ function SignUpPage() {
         </Form.Item>
 
         <Form.Item
-          label="Repeat Password"
-          validateStatus={errors.confirmPassword ? 'error' : ''}
-          help={errors.confirmPassword?.message}
+          label="Avatar image (url)"
+          validateStatus={errors.avatar ? 'error' : ''}
+          help={errors.avatar?.message}
         >
           <Controller
-            name="confirmPassword"
+            name="avatar"
             control={control}
-            rules={{
-              required: 'Please confirm your password',
-              validate: (value) =>
-                value === password || 'The passwords do not match',
-            }}
-            render={({ field }) => <Input.Password {...field} />}
-          />
-        </Form.Item>
-
-        <Form.Item
-          validateStatus={errors.agreement ? 'error' : ''}
-          help={errors.agreement?.message}
-        >
-          <Controller
-            name="agreement"
-            control={control}
-            rules={{
-              required: 'You must agree to the terms',
-            }}
-            render={({ field }) => (
-              <Checkbox
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
-              >
-                I agree to the processing of my personal information
-              </Checkbox>
-            )}
+            render={({ field }) => <Input {...field} />}
           />
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            Create
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -208,4 +180,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default EditProfilePage;

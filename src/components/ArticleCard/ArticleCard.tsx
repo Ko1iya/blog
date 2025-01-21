@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import { useState } from 'react';
 import styles from './ArticleCard.module.scss';
 import HertWithoutLike from '@/asset/image/heart-without-like.svg';
+import Heart from '@/asset/image/heart-like.svg';
+import { useAppSelector } from '@/hooks/redux';
+import { useAddFavoriteMutation } from '@/store/reducers/blogApi';
 
 interface ArticleCardProps {
   title: string;
@@ -12,12 +16,25 @@ interface ArticleCardProps {
   authorName: string;
   authorAvatar: string;
   slug: string;
+  favorited: boolean;
 }
 function ArticleCard(props: ArticleCardProps) {
-  const { title, likes, date, tags, content, authorName, authorAvatar, slug } =
-    props;
+  const {
+    title,
+    likes,
+    date,
+    tags,
+    content,
+    authorName,
+    authorAvatar,
+    slug,
+    favorited,
+  } = props;
 
-  // const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.authSlice.user);
+  const [localFavorite, setFavorite] = useState(favorited);
+
+  const [isLiked] = useAddFavoriteMutation();
 
   return (
     <li className={styles.card}>
@@ -26,15 +43,21 @@ function ArticleCard(props: ArticleCardProps) {
           <Link to={`/articles/${slug}`}>
             <h2 className={styles.title}>{title}</h2>
           </Link>
-          {/* <button
-            type="button"
-            onClick={() => dispatch(changeArticle(article))}
-          >
-            <h2 className={styles.title}>{title}</h2>
-          </button> */}
+
           <div className={styles.likes}>
-            <button type="button" className={styles.likeButton}>
-              <HertWithoutLike width={20} height={20}></HertWithoutLike>
+            <button
+              type="button"
+              className={`${styles.likeButton} ${user && styles.liked}`}
+              onClick={() => {
+                setFavorite(!localFavorite);
+                isLiked(slug);
+              }}
+            >
+              {localFavorite ? (
+                <Heart width={20} height={20}></Heart>
+              ) : (
+                <HertWithoutLike width={20} height={20}></HertWithoutLike>
+              )}
               <p>{likes}</p>
             </button>
           </div>
