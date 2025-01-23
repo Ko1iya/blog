@@ -5,6 +5,7 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
+import { useLayoutEffect } from 'react';
 import { Button, Form, Input } from 'antd';
 import styles from './FormArticle.module.scss';
 import {
@@ -36,6 +37,14 @@ function FormArticle(props: IFormArticleProps) {
   const { title, description, body, tags, slug } = props;
 
   const navigate = useNavigate();
+
+  const isAuth = localStorage.getItem('token');
+
+  useLayoutEffect(() => {
+    if (!isAuth) {
+      navigate('/sign-in');
+    }
+  }, []);
 
   const {
     control,
