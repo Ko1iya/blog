@@ -6,6 +6,13 @@ interface ProfileUodateRequest {
   user: { email?: string; username: string; bio?: string; image?: string };
 }
 
+interface FormArticle {
+  title: string;
+  description: string;
+  body: string;
+  tags?: [string];
+}
+
 interface ProfileUodateResponse {
   user: {
     bio: string;
@@ -40,7 +47,7 @@ interface ReturnSignUp {
 
 const blogApi = createApi({
   reducerPath: 'blogApi',
-  tagTypes: ['User', 'favorite'],
+  tagTypes: ['User', 'favorite', 'articles'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://blog-platform.kata.academy/api/',
     prepareHeaders: (headers, { getState }) => {
@@ -58,6 +65,7 @@ const blogApi = createApi({
     }),
     getArticle: builder.query<{ article: Article }, string>({
       query: (slug) => `articles/${slug}`,
+      providesTags: ['favorite'],
     }),
     signIn: builder.mutation<ReturnSign, FormInputsIn>({
       query: ({ email, password }) => ({
@@ -73,6 +81,13 @@ const blogApi = createApi({
       query: (slug) => ({
         url: `articles/${slug}/favorite`,
         method: 'POST',
+      }),
+      invalidatesTags: ['favorite'],
+    }),
+    deleteFavorite: builder.mutation<{ article: Article }, string>({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['favorite'],
     }),
@@ -102,6 +117,15 @@ const blogApi = createApi({
       },
       invalidatesTags: ['User'],
     }),
+    createArticle: builder.mutation<FormArticle, FormArticle>({
+      query: (article) => ({
+        url: 'articles',
+        method: 'POST',
+        body: { article: { ...article } },
+        formData: true,
+      }),
+      invalidatesTags: ['articles'],
+    }),
   }),
 });
 
@@ -112,6 +136,8 @@ export const {
   useSignUpMutation,
   useAddFavoriteMutation,
   useEditProfileMutation,
+  useCreateArticleMutation,
+  useDeleteFavoriteMutation,
 } = blogApi;
 
 export default blogApi;

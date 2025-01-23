@@ -74,6 +74,7 @@
 
 .author {
   display: flex;
+  gap: 10px;
   justify-content: space-between;
   align-items: start;
   min-width: 24%;
@@ -93,6 +94,13 @@
 .date {
   color: #718096;
   font-size: 12px;
+}
+
+.changeContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-top: 10px;
 }
 
 .avatar {

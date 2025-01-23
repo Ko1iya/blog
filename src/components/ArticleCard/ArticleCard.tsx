@@ -5,7 +5,10 @@ import styles from './ArticleCard.module.scss';
 import HertWithoutLike from '@/asset/image/heart-without-like.svg';
 import Heart from '@/asset/image/heart-like.svg';
 import { useAppSelector } from '@/hooks/redux';
-import { useAddFavoriteMutation } from '@/store/reducers/blogApi';
+import {
+  useAddFavoriteMutation,
+  useDeleteFavoriteMutation,
+} from '@/store/reducers/blogApi';
 
 interface ArticleCardProps {
   title: string;
@@ -34,7 +37,8 @@ function ArticleCard(props: ArticleCardProps) {
   const user = useAppSelector((state) => state.authSlice.user);
   const [localFavorite, setFavorite] = useState(favorited);
 
-  const [isLiked] = useAddFavoriteMutation();
+  const [addLike] = useAddFavoriteMutation();
+  const [deleteLike] = useDeleteFavoriteMutation();
 
   return (
     <li className={styles.card}>
@@ -50,7 +54,11 @@ function ArticleCard(props: ArticleCardProps) {
               className={`${styles.likeButton} ${user && styles.liked}`}
               onClick={() => {
                 setFavorite(!localFavorite);
-                isLiked(slug);
+                if (localFavorite) {
+                  deleteLike(slug);
+                } else {
+                  addLike(slug);
+                }
               }}
             >
               {localFavorite ? (

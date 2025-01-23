@@ -18,7 +18,7 @@ function Header() {
         <div className={styles.authButtons}>
           {user ? (
             <>
-              <Link to="/create-article" className={styles.signUp}>
+              <Link to="/new-article" className={styles.signUp}>
                 <p>Create Article</p>
               </Link>
               <Link to="/edit-profile" className={styles.profile}>
