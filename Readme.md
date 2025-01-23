@@ -1,1 +1,1 @@
-Версия сборки на базе проекта aviasales
+vercel: https://blog-seven-lilac-75.vercel.app/

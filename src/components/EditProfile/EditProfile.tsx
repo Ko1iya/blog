@@ -83,7 +83,7 @@ function EditProfilePage() {
 
   return (
     <div className={styles.editProfilePage}>
-      <h1>Create new account</h1>
+      <h1>Edit account</h1>
       <Form
         layout="vertical"
         onFinish={handleSubmit(onSubmit)}

@@ -15,6 +15,7 @@ function EditArticlePage() {
 
   return (
     <div className={styles.creacteArticlePage}>
+      <h1>Edit Article</h1>
       <FormArticle
         title={data?.article.title}
         description={data?.article.description}
