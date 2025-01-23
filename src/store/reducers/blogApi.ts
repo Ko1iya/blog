@@ -11,6 +11,7 @@ interface FormArticle {
   description: string;
   body: string;
   tags?: [string];
+  slug?: string;
 }
 
 interface ProfileUodateResponse {
@@ -47,7 +48,7 @@ interface ReturnSignUp {
 
 const blogApi = createApi({
   reducerPath: 'blogApi',
-  tagTypes: ['User', 'favorite', 'articles'],
+  tagTypes: ['User', 'favorite', 'articles', 'article'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://blog-platform.kata.academy/api/',
     prepareHeaders: (headers, { getState }) => {
@@ -60,12 +61,12 @@ const blogApi = createApi({
   }),
   endpoints: (builder) => ({
     getArticles: builder.query<ArticlesResponse, number>({
-      query: (page = 1) => `articles?offset=${page * 20}`,
-      providesTags: ['favorite'],
+      query: (page = 1) => `articles?offset=${page * 20 - 20}`,
+      providesTags: ['favorite', 'articles', 'article'],
     }),
     getArticle: builder.query<{ article: Article }, string>({
       query: (slug) => `articles/${slug}`,
-      providesTags: ['favorite'],
+      providesTags: ['favorite', 'article'],
     }),
     signIn: builder.mutation<ReturnSign, FormInputsIn>({
       query: ({ email, password }) => ({
@@ -126,6 +127,22 @@ const blogApi = createApi({
       }),
       invalidatesTags: ['articles'],
     }),
+    editArticle: builder.mutation<FormArticle, FormArticle>({
+      query: (article) => ({
+        url: `articles/${article.slug}`,
+        method: 'PUT',
+        body: { article: { ...article } },
+        formData: true,
+      }),
+      invalidatesTags: ['articles', 'article'],
+    }),
+    deleteArticle: builder.mutation<{ article: Article }, string>({
+      query: (slug) => ({
+        url: `articles/${slug}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['articles', 'article'],
+    }),
   }),
 });
 
@@ -138,6 +155,8 @@ export const {
   useEditProfileMutation,
   useCreateArticleMutation,
   useDeleteFavoriteMutation,
+  useEditArticleMutation,
+  useDeleteArticleMutation,
 } = blogApi;
 
 export default blogApi;

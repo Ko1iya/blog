@@ -1,11 +1,13 @@
-import { Button } from 'antd';
+import type { PopconfirmProps } from 'antd';
+import { Button, message, Popconfirm } from 'antd';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './ArticlePage.module.scss';
 import HertWithoutLike from '@/asset/image/heart-without-like.svg';
 import Heart from '@/asset/image/heart-like.svg';
 import {
   useAddFavoriteMutation,
+  useDeleteArticleMutation,
   useDeleteFavoriteMutation,
   useGetArticleQuery,
 } from '@/store/reducers/blogApi';
@@ -15,6 +17,8 @@ import { useAppSelector } from '@/hooks/redux';
 
 function ArticlePage() {
   const { slug } = useParams();
+
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.authSlice.user);
 
@@ -42,7 +46,15 @@ function ArticlePage() {
 
   const [addLike] = useAddFavoriteMutation();
   const [deleteLike] = useDeleteFavoriteMutation();
+  const [deleteArticle] = useDeleteArticleMutation();
 
+  const confirm: PopconfirmProps['onConfirm'] = () => {
+    message.success('Deleted successfully!');
+    deleteArticle(slug);
+    navigate('/', { replace: true });
+  };
+
+  const cancel: PopconfirmProps['onCancel'] = () => {};
   return (
     <div className={styles.container}>
       {isError ? <>Oh no, there was an error</> : isLoading && <Spinner />}
@@ -118,12 +130,22 @@ function ArticlePage() {
                   />
                 </div>
                 <div className={styles.changeContainer}>
-                  <Button color="red" variant="outlined">
-                    Delete{' '}
-                  </Button>
-                  <Button color="green" variant="outlined">
-                    Edit{' '}
-                  </Button>
+                  <Popconfirm
+                    title="Delete the article"
+                    description="Are you sure to delete this article?"
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Button danger>Delete</Button>
+                  </Popconfirm>
+
+                  <Link to={`/articles/${slug}/edit`}>
+                    <Button color="green" variant="outlined">
+                      Edit
+                    </Button>
+                  </Link>
                 </div>
               </div>
             )}

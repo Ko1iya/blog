@@ -9,6 +9,7 @@ function CreacteArticlePage() {
         description=""
         body=""
         tags={['test']}
+        slug=""
       ></FormArticle>
     </div>
   );

@@ -15,6 +15,7 @@ import SignUpPage from './components/SignUpPage/SignUpPage';
 import SignInPage from './components/SignInPage/SignInPage';
 import EditProfilePage from './components/EditProfile/EditProfile';
 import CreacteArticlePage from './components/CreacteArticlePage/CreacteArticlePage';
+import EditArticlePage from './components/EditArticlePage/EditArticlePage';
 
 const router = createHashRouter([
   {
@@ -57,6 +58,10 @@ const router = createHashRouter([
       {
         path: '/new-article',
         element: <CreacteArticlePage />,
+      },
+      {
+        path: '/articles/:slug/edit',
+        element: <EditArticlePage />,
       },
     ],
   },

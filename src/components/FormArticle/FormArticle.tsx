@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   Controller,
   SubmitHandler,
@@ -6,7 +7,10 @@ import {
 } from 'react-hook-form';
 import { Button, Form, Input } from 'antd';
 import styles from './FormArticle.module.scss';
-import { useCreateArticleMutation } from '@/store/reducers/blogApi';
+import {
+  useCreateArticleMutation,
+  useEditArticleMutation,
+} from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
 
 type FormInputs = {
@@ -21,14 +25,17 @@ type FormInputs = {
 };
 
 interface IFormArticleProps {
-  title: string;
-  description: string;
-  body: string;
-  tags: string[];
+  title: string | undefined;
+  description: string | undefined;
+  body: string | undefined;
+  tags: string[] | undefined;
+  slug: string | undefined;
 }
 
 function FormArticle(props: IFormArticleProps) {
-  const { title, description, body, tags } = props;
+  const { title, description, body, tags, slug } = props;
+
+  const navigate = useNavigate();
 
   const {
     control,
@@ -45,8 +52,6 @@ function FormArticle(props: IFormArticleProps) {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    // ERROR: Тип "string" не может быть назначен для типа "never".ts(2322)
-    // fieldArray.d.ts(6, 5): Ожидаемый тип поступает из свойства "name", объявленного здесь в типе "UseFieldArrayProps<FormInputs, never, "id">"
     name: 'tagList',
   });
   interface Error {
@@ -58,13 +63,18 @@ function FormArticle(props: IFormArticleProps) {
     status: number;
   }
 
-  const [createArticle, { isLoading, error: createError }] =
+  const [createArticle, { isLoading: createLoading, error: createError }] =
     useCreateArticleMutation();
+  const [editArticle, { isLoading: editLoading, error: editError }] =
+    useEditArticleMutation();
 
   let errorMessage: string;
+  const errorForm = title ? editError : createError;
+  const isLoading = title ? editLoading : createLoading;
+  const requestFunc = title ? editArticle : createArticle;
 
-  if (createError && 'data' in createError) {
-    const error = createError as Error;
+  if (errorForm && 'data' in errorForm) {
+    const error = errorForm as Error;
 
     const firstErrorEntry = Object.entries(error.data.errors)[0];
     if (firstErrorEntry) {
@@ -77,11 +87,14 @@ function FormArticle(props: IFormArticleProps) {
     const transformedData = {
       ...formData,
       tagList: formData.tagList.map((tag) => tag.value),
+      ...(slug && { slug }),
     };
 
     try {
-      const result = await createArticle(transformedData).unwrap();
-      console.log(result);
+      await requestFunc(transformedData).unwrap();
+      if (title) {
+        navigate(`/articles/${slug}`, { replace: true });
+      }
     } catch (error) {
       console.error('Error signing up:', error);
     }
@@ -196,7 +209,7 @@ function FormArticle(props: IFormArticleProps) {
 
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '319px' }}>
-            Create
+            {title ? 'Edit ' : 'Create '}
           </Button>
         </Form.Item>
       </Form>
