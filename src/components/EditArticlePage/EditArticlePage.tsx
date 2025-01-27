@@ -1,7 +1,10 @@
 import { useParams } from 'react-router-dom';
 import FormArticle from '../FormArticle/FormArticle';
 import styles from './EditArticlePage.module.scss';
-import { useGetArticleQuery } from '@/store/reducers/blogApi';
+import {
+  useEditArticleMutation,
+  useGetArticleQuery,
+} from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
 
 function EditArticlePage() {
@@ -13,6 +16,9 @@ function EditArticlePage() {
     return <Spinner />;
   }
 
+  const [editArticle, { isLoading: editLoading, error: editError }] =
+    useEditArticleMutation();
+
   return (
     <div className={styles.creacteArticlePage}>
       <h1>Edit Article</h1>
@@ -22,6 +28,9 @@ function EditArticlePage() {
         body={data?.article.body}
         tags={data?.article.tagList}
         slug={data?.article.slug}
+        requestFunc={editArticle}
+        isLoading={editLoading}
+        errorForm={editError}
       ></FormArticle>
     </div>
   );

@@ -1,4 +1,4 @@
-// src/components/SignUpPage/SignUpPage.tsx
+// src/components/EditProfile/EditProfile.tsx
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import styles from './EditProfile.module.scss';
 import { useEditProfileMutation } from '@/store/reducers/blogApi';
 import Spinner from '../Spinner/Spinner';
-import { useAppDispatch } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { setCredentials } from '@/store/reducers/authSlice';
 
 type FormInputs = {
@@ -28,8 +28,10 @@ interface EditProfileError {
 function EditProfilePage() {
   const navigate = useNavigate();
 
+  const token = useAppSelector((state) => state.authSlice.token);
+
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!token) {
       navigate('/sign-in');
     }
   }, []);

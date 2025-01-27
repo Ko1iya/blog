@@ -6,7 +6,7 @@ interface ProfileUodateRequest {
   user: { email?: string; username: string; bio?: string; image?: string };
 }
 
-interface FormArticle {
+export interface FormArticle {
   title: string;
   description: string;
   body: string;
@@ -143,6 +143,13 @@ const blogApi = createApi({
       }),
       invalidatesTags: ['articles', 'article'],
     }),
+    getUser: builder.query<ReturnSign, void>({
+      query: () => {
+        console.log('getUser');
+
+        return 'user';
+      },
+    }),
   }),
 });
 
@@ -157,6 +164,7 @@ export const {
   useDeleteFavoriteMutation,
   useEditArticleMutation,
   useDeleteArticleMutation,
+  useGetUserQuery,
 } = blogApi;
 
 export default blogApi;

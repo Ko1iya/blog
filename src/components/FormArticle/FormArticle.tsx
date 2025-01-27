@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 import {
   Controller,
   SubmitHandler,
@@ -8,11 +10,9 @@ import {
 import { useLayoutEffect } from 'react';
 import { Button, Form, Input } from 'antd';
 import styles from './FormArticle.module.scss';
-import {
-  useCreateArticleMutation,
-  useEditArticleMutation,
-} from '@/store/reducers/blogApi';
+
 import Spinner from '../Spinner/Spinner';
+import { useAppSelector } from '@/hooks/redux';
 
 type FormInputs = {
   title: string;
@@ -25,20 +25,42 @@ type FormInputs = {
   }[];
 };
 
+interface IFormArticle {
+  title: string;
+  description: string;
+  body: string;
+  tags?: [string];
+  slug?: string;
+}
+
 interface IFormArticleProps {
   title: string | undefined;
   description: string | undefined;
   body: string | undefined;
   tags: string[] | undefined;
   slug: string | undefined;
+  isLoading: boolean;
+  requestFunc: (data: IFormArticle) => unknown;
+  errorForm: FetchBaseQueryError | SerializedError;
 }
 
 function FormArticle(props: IFormArticleProps) {
-  const { title, description, body, tags, slug } = props;
+  const {
+    title,
+    description,
+    body,
+    tags,
+    slug,
+    requestFunc,
+    errorForm,
+    isLoading,
+  } = props;
 
   const navigate = useNavigate();
 
-  const isAuth = localStorage.getItem('token');
+  const token = useAppSelector((state) => state.authSlice.token);
+
+  const isAuth = token;
 
   useLayoutEffect(() => {
     if (!isAuth) {
@@ -72,15 +94,7 @@ function FormArticle(props: IFormArticleProps) {
     status: number;
   }
 
-  const [createArticle, { isLoading: createLoading, error: createError }] =
-    useCreateArticleMutation();
-  const [editArticle, { isLoading: editLoading, error: editError }] =
-    useEditArticleMutation();
-
   let errorMessage: string;
-  const errorForm = title ? editError : createError;
-  const isLoading = title ? editLoading : createLoading;
-  const requestFunc = title ? editArticle : createArticle;
 
   if (errorForm && 'data' in errorForm) {
     const error = errorForm as Error;
@@ -100,7 +114,8 @@ function FormArticle(props: IFormArticleProps) {
     };
 
     try {
-      await requestFunc(transformedData).unwrap();
+      await requestFunc(transformedData);
+
       if (title) {
         navigate(`/articles/${slug}`, { replace: true });
       }
